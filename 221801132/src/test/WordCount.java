@@ -12,7 +12,7 @@ public class WordCount {
             reader = new InputStreamReader(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            System.out.println("ÕÒ²»µ½ÊäÈëÎÄ¼þ£¡");
+            System.out.println("æ‰¾ä¸åˆ°è¾“å…¥æ–‡ä»¶ï¼");
         }
         return reader;
     }
@@ -26,7 +26,7 @@ public class WordCount {
         Reader reader = InputFile(InputFile);
         Writer writer = new FileWriter(OutputFile);
         int CharactersNum = 0;
-        while (reader.read() != -1)	//¶ÁÈ¡µ½-1Ê±Í£Ö¹¡£
+        while (reader.read() != -1)	//è¯»å–åˆ°-1æ—¶åœæ­¢ã€‚
         {  
             CharactersNum++;
         }
@@ -34,16 +34,16 @@ public class WordCount {
         writer.close();
         reader.close();
         return CharactersNum;
-    }	    // Í³¼Æ×Ö·ûÊý¡£
+    }	    // ç»Ÿè®¡å­—ç¬¦æ•°ã€‚
     
     public static int CountWords(String inputFile, String outputFile) throws IOException {
         Reader reader = InputFile(inputFile);
         Writer writer = OutputFile(outputFile);
-        int length;    //±íÊ¾µ¥´ÊµÄ³¤¶È£¬´óÓÚµÈÓÚ4ºÏ·¨
+        int length;    //è¡¨ç¤ºå•è¯çš„é•¿åº¦ï¼Œå¤§äºŽç­‰äºŽ4åˆæ³•
         int temp;
         int WordsNum = 0;
         String word = "";
-        String regex = "[a-zA-Z]{4}[^ ,.]+";	//ÕýÔò±í´ïÊ½ÅÐ¶ÏÊÇ·ñÎªËÄ¸öÓ¢ÎÄ¿ªÍ·
+        String regex = "[a-zA-Z]{4}[^ ,.]+";	//æ­£åˆ™è¡¨è¾¾å¼åˆ¤æ–­æ˜¯å¦ä¸ºå››ä¸ªè‹±æ–‡å¼€å¤´
         Pattern p = Pattern.compile(regex);
         while ((temp = reader.read()) != -1) 
         {
@@ -51,7 +51,7 @@ public class WordCount {
                 word += (char) temp;
                 temp = reader.read();
             }
-            while ((!(temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57)) && temp != -1)	//È¥³ý¿Õ°××Ö·ûºÍ·Ö¸ô·û 
+            while ((!(temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57)) && temp != -1)	//åŽ»é™¤ç©ºç™½å­—ç¬¦å’Œåˆ†éš”ç¬¦ 
             {	
                 temp = reader.read();
             }
@@ -67,7 +67,7 @@ public class WordCount {
         writer.close();
         reader.close();
         return WordsNum;
-    }	//Í³¼Æµ¥´ÊÊý
+    }	//ç»Ÿè®¡å•è¯æ•°
 
 
     public static int CountLines(String inputFile, String outputFile) throws IOException {
@@ -96,7 +96,7 @@ public class WordCount {
         reader.close();
         writer.close();
         return LinesNum;
-    }		//Í³¼ÆÐÐÊý¡£
+    }		//ç»Ÿè®¡è¡Œæ•°ã€‚
     
     
     public static void main(String[] args) throws IOException {
