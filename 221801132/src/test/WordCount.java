@@ -1,8 +1,13 @@
 package test;
 
 import java.io.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class WordCount {
     public static Reader InputFile(String fileName) {
@@ -98,6 +103,75 @@ public class WordCount {
         return LinesNum;
     }		//统计行数。
     
+    public static String WordsNumSort(String inputFile, String outputFile) throws IOException {
+        Reader reader = InputFile(inputFile);
+        Writer writer = OutputFile(outputFile);
+        int temp;
+        String word = "";
+        String regex = "[a-zA-Z]{4}[^ ,.]+";	//正则表达式判断是否为四个英文开头
+        Pattern p = Pattern.compile(regex);
+        Map<String, Integer> words = new HashMap<String, Integer>();
+        while ((temp = reader.read()) != -1) 
+        {
+            while ((temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57))
+            {
+                if (temp >= 65 && temp <= 90)
+                {
+                    temp += 32; 
+                }
+                word += (char)temp;
+                temp = reader.read();
+            }
+            while ((!(temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57)) && temp != -1) 
+            {
+                temp = reader.read();
+            }
+            Matcher m = p.matcher(word);
+            if (m.matches()) {
+                if (words.get(word) == null) 
+                {
+                    words.put(word, Integer.valueOf(1));
+                } 
+                else 
+                {
+                    words.put(word, Integer.valueOf(words.get(word).intValue() + 1));
+                }
+            }
+            if (temp >= 65 && temp <= 90) 
+            { 
+                temp += 32;
+            }
+            word = "" + (char) temp;
+        }	//与统计单词数的方法类似，不合法的单词不进行排序。
+        Map<String, Integer> WordsSort = words.entrySet().stream().sorted(new Comparator<Map.Entry<String, Integer>>() 
+                {
+                    public int compare(Map.Entry<String, Integer> w1, Map.Entry<String, Integer> w2) 
+                    {
+                        if (w1.getValue().equals(w2.getValue())) 
+                        {
+                            return w1.getKey().compareTo(w2.getKey());
+                        } 
+                        else 
+                        {
+                            return w2.getValue().compareTo(w1.getValue());
+                        }
+                    }
+                })
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(oldValue, newValue) -> oldValue, LinkedHashMap::new));	//对单词频率进行排序
+        String test = null;	//设定频率最低的词以便单元测试
+        int i = 0;
+        for (Map.Entry<String, Integer> entry : WordsSort.entrySet()) 
+        {
+        	test = entry.getKey();
+            writer.write(entry.getKey() + ":" + entry.getValue() + "\n");
+            if (i++ >= 9) {
+                break;
+            }
+        }	////打印频率前十的单词 
+        reader.close();
+        writer.close();   
+        return test;	//返回频率最低的词
+    }       
     
     public static void main(String[] args) throws IOException {
         String inputFile = args[0];
@@ -105,5 +179,6 @@ public class WordCount {
         WordCount.CountCharacters(inputFile, outputFile);	      
         WordCount.CountWords(inputFile, outputFile);
         WordCount.CountLines(inputFile, outputFile);
+        WordCount.WordsNumSort(inputFile, outputFile);
     }
 }
