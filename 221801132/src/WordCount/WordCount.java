@@ -1,4 +1,4 @@
-package test;
+package WordCount;
 
 import java.io.*;
 import java.util.Comparator;
@@ -18,7 +18,7 @@ public class WordCount {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("找不到输入文件！");
-        }
+        } 
         return reader;
     }
 
@@ -66,7 +66,7 @@ public class WordCount {
             {	
                 WordsNum++;
             }
-            word = "" + (char) temp;
+            word = "" + (char)temp;
         }
         writer.append("words: " + WordsNum + '\n');
         writer.close();
@@ -143,6 +143,7 @@ public class WordCount {
             }
             word = "" + (char) temp;
         }	//与统计单词数的方法类似，不合法的单词不进行排序。
+        
         Map<String, Integer> WordsSort = words.entrySet().stream().sorted(new Comparator<Map.Entry<String, Integer>>() 
                 {
                     public int compare(Map.Entry<String, Integer> w1, Map.Entry<String, Integer> w2) 
@@ -156,8 +157,8 @@ public class WordCount {
                             return w2.getValue().compareTo(w1.getValue());
                         }
                     }
-                })
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(oldValue, newValue) -> oldValue, LinkedHashMap::new));	//对单词频率进行排序
+                }
+        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(oldValue, newValue) -> oldValue, LinkedHashMap::new));	//对单词频率进行排序
         String test = null;	//设定频率最低的词以便单元测试
         int i = 0;
         for (Map.Entry<String, Integer> entry : WordsSort.entrySet()) 
