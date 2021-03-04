@@ -45,7 +45,7 @@ public class WordCount {
         Reader reader = InputFile(inputFile);
         Writer writer = OutputFile(outputFile);
         int length;    //表示单词的长度，大于等于4合法
-        int temp;
+        int temp; 
         int WordsNum = 0;
         String word = "";
         String regex = "[a-zA-Z]{4}[^ ,.]+";	//正则表达式判断是否为四个英文开头
